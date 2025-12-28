@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoSarah Travels</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#000;
+    color:#d4af37;
+}
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:20px;
+}
+header{
+    text-align:center;
+    border-bottom:1px solid #d4af37;
+    padding-bottom:15px;
+}
+header h1{
+    margin:5px 0;
+}
+header .contact{
+    font-size:16px;
+    font-weight:bold;
+}
+.tabs{
+    display:flex;
+    justify-content:space-around;
+    margin-top:20px;
+    border-bottom:1px solid #d4af37;
+}
+.tabs button{
+    background:none;
+    border:none;
+    color:#d4af37;
+    font-size:18px;
+    padding:10px;
+    cursor:pointer;
+}
+.tabs button.active{
+    border-bottom:3px solid #d4af37;
+}
+.form-box{
+    margin-top:20px;
+    border:1px solid #d4af37;
+    border-radius:10px;
+    padding:20px;
+}
+input, select, textarea{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    background:#000;
+    color:#fff;
+    border:1px solid #d4af37;
+    border-radius:6px;
+}
+textarea{ resize:none; }
+button.send{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    background:#d4af37;
+    color:#000;
+    font-size:18px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+iframe{
+    width:100%;
+    height:200px;
+    border:0;
+    margin-top:25px;
+    border-radius:10px;
+}
+.footer{
+    margin-top:25px;
+    text-align:center;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>GoSarah Travels</h1>
+    <div>Mandarmoni, Purbo Medinipur</div>
+    <div class="contact">📞 9144819688</div>
+</header>
+
+<div class="tabs">
+    <button class="active" onclick="showCab()">Cabs</button>
+    <button onclick="showHotel()">Hotels</button>
+</div>
+
+<!-- CABS SECTION -->
+<div class="form-box" id="cabForm">
+    <input type="text" id="c_pickup" placeholder="Pickup Location" required>
+    <input type="text" id="c_drop" placeholder="Drop Location" required>
+    
+    <input type="datetime-local" id="c_datetime" required>
+
+    <select id="c_type" required>
+        <option value="">Select Cab Type *</option>
+        <option>5 Seater AC</option>
+        <option>5 Seater Non AC</option>
+        <option>7 Seater AC</option>
+        <option>7 Seater Non AC</option>
+        <option>9 Seater Non AC</option>
+        <option>Traveller</option>
+    </select>
+
+    <select id="c_special" required style="margin-top:12px;">
+        <option value="">Select Special Destination *</option>
+        <option>Mandarmani to Kolkata</option>
+        <option>Kolkata to Mandarmani</option>
+        <option>Mandarmani to Digha</option>
+        <option>Mandarmani to Jamshedpur</option>
+        <option>Mandarmani to Ranchi</option>
+        <option>Mandarmani to Digha Sightseeing</option>
+    </select>
+
+    <textarea id="c_notes" rows="3" placeholder="Customer Notes"></textarea>
+    <button class="send" onclick="sendCab()">Send Enquiry</button>
+</div>
+
+<!-- HOTEL SECTION -->
+<div class="form-box" id="hotelForm" style="display:none;">
+    <input type="date" id="h_checkin" required>
+    <input type="date" id="h_checkout" required>
+    <select id="h_room" required>
+        <option value="">Select Room Type *</option>
+        <option>Double Bedroom</option>
+        <option>Deluxe Room</option>
+        <option>Super Deluxe Room</option>
+        <option>Suite Room</option>
+        <option>Premium Room</option>
+        <option>Sea View Room</option>
+    </select>
+    <textarea id="h_notes" rows="3" placeholder="Customer Notes"></textarea>
+    <button class="send" onclick="sendHotel()">Send Enquiry</button>
+</div>
+
+<!-- GOOGLE MAP -->
+<iframe 
+src="https://www.google.com/maps?q=Mandarmoni,West Bengal&output=embed">
+</iframe>
+
+<div class="footer">
+    <p><b>Email:</b> gosarahtravels@gmail.com</p>
+    <p><b>Address:</b> Mandarmoni, Purbo Medinipur, 721455, West Bengal</p>
+</div>
+
+</div>
+
+<script>
+function showCab(){
+    document.getElementById("cabForm").style.display="block";
+    document.getElementById("hotelForm").style.display="none";
+    document.querySelectorAll(".tabs button")[0].classList.add("active");
+    document.querySelectorAll(".tabs button")[1].classList.remove("active");
+}
+
+function showHotel(){
+    document.getElementById("cabForm").style.display="none";
+    document.getElementById("hotelForm").style.display="block";
+    document.querySelectorAll(".tabs button")[1].classList.add("active");
+    document.querySelectorAll(".tabs button")[0].classList.remove("active");
+}
+
+function sendCab(){
+    let special = document.getElementById("c_special").value;
+
+    let msg =
+`🚖 Cab Enquiry - GoSarah Travels
+
+Pickup: ${c_pickup.value}
+Drop: ${c_drop.value}
+Special Destination: ${special}
+Date & Time: ${c_datetime.value}
+Cab Type: ${c_type.value}
+Notes: ${c_notes.value}`;
+
+    window.open("https://wa.me/919144819688?text="+encodeURIComponent(msg),"_blank");
+}
+
+function sendHotel(){
+    let msg =
+`🏨 Hotel Enquiry - GoSarah Travels
+
+Check-in: ${h_checkin.value}
+Check-out: ${h_checkout.value}
+Room Type: ${h_room.value}
+Notes: ${h_notes.value}`;
+
+    window.open("https://wa.me/919144819688?text="+encodeURIComponent(msg),"_blank");
+}
+</script>
+
+</body>
+</html>
